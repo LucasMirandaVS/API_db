@@ -6,11 +6,9 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../back
 
 from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
-from . import crud, schemas  # Corrigido para importar corretamente de 'app'
+from . import crud, schemas
 from .database import SessionLocal, engine
 from . import models
-
-# O resto do seu código permanece igual
 
 # Criação das tabelas no banco de dados (caso ainda não existam)
 models.Base.metadata.create_all(bind=engine)
@@ -46,11 +44,10 @@ def get_pokemon(pokemon_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Pokemon not found")
     return db_pokemon
 
-# Rota para excluir um Pokémon específico pelo nome
+# Rota para deletar um Pokémon pelo nome
 @application.delete("/pokemons/{pokemon_name}", response_model=schemas.Pokemon)
 def delete_pokemon(pokemon_name: str, db: Session = Depends(get_db)):
     try:
         return crud.delete_pokemon_by_name(db=db, pokemon_name=pokemon_name)
     except ValueError as e:
         raise HTTPException(status_code=404, detail=str(e))
-

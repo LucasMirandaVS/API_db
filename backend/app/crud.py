@@ -33,18 +33,37 @@ def fetch_pokemon_data(name: str):
             description = flavor_text['flavor_text']
             break
     
-    return types[0], description  # Retorna o primeiro tipo e a descrição
+    # Retorna todas as informações necessárias
+    return {
+        "type": types[0],  # Primeiro tipo
+        "description": description,
+        "number": data["id"],
+        "base_experience": data["base_experience"],
+        "height": data["height"],
+        "order": data["order"],
+        "weight": data["weight"],
+        "sprites": {
+            "front_default": data["sprites"]["front_default"],
+            "back_default": data["sprites"]["back_default"]
+        }
+    }
 
 # Função para criar um novo Pokémon no banco de dados
 def create_pokemon(db: Session, name: str):
     # Obtém dados do Pokémon da API
-    pokemon_type, description = fetch_pokemon_data(name)
+    pokemon_data = fetch_pokemon_data(name)
     
     # Cria um novo registro de Pokémon no banco de dados
     db_pokemon = models.Pokemon(
         name=name,
-        type=pokemon_type,
-        description=description
+        type=pokemon_data["type"],
+        description=pokemon_data["description"],
+        number=pokemon_data["number"],
+        base_experience=pokemon_data["base_experience"],
+        height=pokemon_data["height"],
+        order=pokemon_data["order"],
+        weight=pokemon_data["weight"],
+        sprites=pokemon_data["sprites"]
     )
     
     db.add(db_pokemon)
@@ -60,6 +79,7 @@ def get_pokemons(db: Session, skip: int = 0, limit: int = 10):
 def get_pokemon_by_id(db: Session, pokemon_id: int):
     return db.query(models.Pokemon).filter(models.Pokemon.id == pokemon_id).first()
 
+# Função para excluir um Pokémon pelo nome
 def delete_pokemon_by_name(db: Session, pokemon_name: str):
     # Encontrando o Pokémon pelo nome
     db_pokemon = db.query(models.Pokemon).filter(models.Pokemon.name == pokemon_name).first()
