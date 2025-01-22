@@ -1,15 +1,14 @@
 from pydantic import BaseModel
 
-class PokemonBase(BaseModel):
+# Modelo de criação de Pokémon (usuário insere apenas o nome)
+class PokemonCreate(BaseModel):
     name: str
-    type_1: str
-    type_2: str | None = None
 
-class PokemonCreate(PokemonBase):
-    pass
-
-class Pokemon(PokemonBase):
+# Modelo de Pokémon com id, nome, tipo e descrição
+class Pokemon(PokemonCreate):
     id: int
+    type: str
+    description: str
 
     class Config:
         orm_mode = True
