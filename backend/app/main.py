@@ -34,7 +34,7 @@ def create_pokemon(pokemon: schemas.PokemonCreate, db: Session = Depends(get_db)
         raise HTTPException(status_code=404, detail=str(e))
 
 # Rota para obter todos os Pokémons
-@application .get("/pokemons/", response_model=list[schemas.Pokemon])
+@application.get("/pokemons/", response_model=list[schemas.Pokemon])
 def get_pokemons(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
     return crud.get_pokemons(db=db, skip=skip, limit=limit)
 
@@ -45,3 +45,12 @@ def get_pokemon(pokemon_id: int, db: Session = Depends(get_db)):
     if db_pokemon is None:
         raise HTTPException(status_code=404, detail="Pokemon not found")
     return db_pokemon
+
+# Rota para excluir um Pokémon específico pelo nome
+@application.delete("/pokemons/{pokemon_name}", response_model=schemas.Pokemon)
+def delete_pokemon(pokemon_name: str, db: Session = Depends(get_db)):
+    try:
+        return crud.delete_pokemon_by_name(db=db, pokemon_name=pokemon_name)
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+

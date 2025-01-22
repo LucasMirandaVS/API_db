@@ -59,3 +59,14 @@ def get_pokemons(db: Session, skip: int = 0, limit: int = 10):
 # Função para obter um Pokémon pelo ID
 def get_pokemon_by_id(db: Session, pokemon_id: int):
     return db.query(models.Pokemon).filter(models.Pokemon.id == pokemon_id).first()
+
+def delete_pokemon_by_name(db: Session, pokemon_name: str):
+    # Encontrando o Pokémon pelo nome
+    db_pokemon = db.query(models.Pokemon).filter(models.Pokemon.name == pokemon_name).first()
+    if db_pokemon is None:
+        raise ValueError(f"Pokemon with name '{pokemon_name}' not found")
+    
+    # Excluindo o Pokémon
+    db.delete(db_pokemon)
+    db.commit()
+    return db_pokemon
