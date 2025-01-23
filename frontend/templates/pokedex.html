@@ -16,8 +16,8 @@
         <p><strong>Descrição:</strong> {{ pokemon.description }}</p>
         <p><strong>Número:</strong> {{ pokemon.number }}</p>
         <p><strong>Base Experience:</strong> {{ pokemon.base_experience }}</p>
-        <p><strong>Altura:</strong> {{ pokemon.height }}</p>
-        <p><strong>Peso:</strong> {{ pokemon.weight }}</p>
+        <p><strong>Altura:</strong> {{ pokemon.height }}m</p>
+        <p><strong>Peso:</strong> {{ pokemon.weight }}kg</p>
         <img src="{{ pokemon.front_default }}" alt="Imagem do Pokémon">
     {% endif %}
 
@@ -27,5 +27,8 @@
             <li>{{ pokemon.name }} - <a href="/pokemons/{{ pokemon.id }}">Ver Detalhes</a></li>
         {% endfor %}
     </ul>
+
+    <!-- Botão para voltar e adicionar mais Pokémon -->
+    <a href="/" class="btn-back">Adicionar Novo Pokémon</a>
 </body>
 </html>
