@@ -9,22 +9,38 @@
 <body>
     <h1>Pokédex</h1>
 
+    <!-- Formulário para buscar um Pokémon por nome -->
+    <form method="get" action="/pokedex/">
+        <label for="name">Buscar Pokémon:</label>
+        <input type="text" id="name" name="name" placeholder="Digite o nome do Pokémon">
+        <button type="submit">Buscar</button>
+    </form>
+
     <!-- Exibe Pokémon específico (se buscado diretamente) -->
     {% if pokemon %}
-        <h2>{{ pokemon.name }}</h2>
-        <p><strong>Tipo:</strong> {{ pokemon.type }}</p>
-        <p><strong>Descrição:</strong> {{ pokemon.description }}</p>
-        <p><strong>Número:</strong> {{ pokemon.number }}</p>
-        <p><strong>Base Experience:</strong> {{ pokemon.base_experience }}</p>
-        <p><strong>Altura:</strong> {{ pokemon.height }}m</p>
-        <p><strong>Peso:</strong> {{ pokemon.weight }}kg</p>
-        <img src="{{ pokemon.front_default }}" alt="Imagem do Pokémon">
+        <div class="pokemon-details">
+            <h2>Detalhes de {{ pokemon.name }}</h2>
+            <p><strong>Tipo:</strong> {{ pokemon.type }}</p>
+            <p><strong>Descrição:</strong> {{ pokemon.description }}</p>
+            <p><strong>Número:</strong> {{ pokemon.number }}</p>
+            <p><strong>Base Experience:</strong> {{ pokemon.base_experience }}</p>
+            <p><strong>Altura:</strong> {{ pokemon.height }}m</p>
+            <p><strong>Peso:</strong> {{ pokemon.weight }}kg</p>
+            <!-- Atualizando para pegar a imagem do Pokémon -->
+            <img src="{{ pokemon.sprites['front_default'] }}" alt="Imagem do Pokémon">
+        </div>
+    {% elif name %}
+        <p class="error-message">Pokémon "{{ name }}" não encontrado!</p>
     {% endif %}
 
     <h2>Pokémons na Pokédex</h2>
     <ul>
         {% for pokemon in pokemons %}
-            <li>{{ pokemon.name }} - <a href="/pokemons/{{ pokemon.id }}">Ver Detalhes</a></li>
+            <li>
+                <strong>{{ pokemon.name }}</strong>
+                - Número: {{ pokemon.number }}
+                - <a href="/pokedex/?name={{ pokemon.name }}">Ver Detalhes</a>
+            </li>
         {% endfor %}
     </ul>
 

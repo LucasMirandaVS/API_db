@@ -4,7 +4,7 @@ import requests
 app = Flask(__name__)
 
 # URL do back-end
-API_URL = 'http://localhost:8000'  # Supondo que o back-end esteja rodando localmente
+API_URL = 'http://localhost:8000'  # Backend Local
 
 # Página inicial com o formulário de busca de Pokémon
 @app.route('/')
@@ -32,7 +32,7 @@ def pokedex():
     if response.status_code == 200:
         pokemons = response.json()
         return render_template('pokedex.html', pokemons=pokemons)
-    return "Erro ao buscar Pokémons"
+    return "Erro ao buscar Pokemons"
 
 if __name__ == '__main__':
     app.run(debug=True)

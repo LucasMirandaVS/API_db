@@ -7,30 +7,59 @@ body {
 
 h1 {
     color: #007bff;
+    text-align: center;
 }
 
 form {
     margin-bottom: 20px;
+    text-align: center;
 }
 
 input, button {
     padding: 10px;
     margin: 5px;
     font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    border: none;
+}
+
+button:hover {
+    background-color: #0056b3;
 }
 
 ul {
     list-style-type: none;
     padding: 0;
+    margin: 20px auto;
+    max-width: 600px;
 }
 
 li {
     margin-bottom: 10px;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-a {
+li a {
     color: #007bff;
     text-decoration: none;
+    font-weight: bold;
+}
+
+li a:hover {
+    text-decoration: underline;
 }
 
 .btn-back {
@@ -41,8 +70,43 @@ a {
     color: white;
     text-decoration: none;
     border-radius: 5px;
+    text-align: center;
 }
 
 .btn-back:hover {
     background-color: #0056b3;
+}
+
+.pokemon-details {
+    margin: 20px auto;
+    max-width: 600px;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    text-align: center;
+}
+
+.pokemon-details img {
+    max-width: 200px;
+    margin-top: 10px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+}
+
+.pokemon-details h2 {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.pokemon-details p {
+    margin: 5px 0;
+    color: #555;
+}
+
+.error-message {
+    color: red;
+    text-align: center;
+    font-weight: bold;
+    margin-top: 20px;
 }

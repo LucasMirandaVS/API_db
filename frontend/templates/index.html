@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pokédex</title>
+    <title>Pokedex</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <h1>Busca de Pokémon</h1>
+    <h1>Busca de Pokemon</h1>
     <form action="/search" method="POST">
-        <label for="name">Nome do Pokémon:</label>
+        <label for="name">Nome do Pokemon:</label>
         <input type="text" id="name" name="name" required>
         <button type="submit">Buscar</button>
     </form>
