@@ -7,11 +7,11 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <h1>Pokédex</h1>
+    <h1>Pokedex</h1>
 
     <!-- Formulário para buscar um Pokémon por nome -->
     <form method="get" action="/pokedex/">
-        <label for="name">Buscar Pokémon:</label>
+        <label for="name">Buscar Pokemon:</label>
         <input type="text" id="name" name="name" placeholder="Digite o nome do Pokémon">
         <button type="submit">Buscar</button>
     </form>
@@ -30,10 +30,10 @@
             <img src="{{ pokemon.sprites['front_default'] }}" alt="Imagem do Pokémon">
         </div>
     {% elif name %}
-        <p class="error-message">Pokémon "{{ name }}" não encontrado!</p>
+        <p class="error-message">Pokemon "{{ name }}" não encontrado!</p>
     {% endif %}
 
-    <h2>Pokémons na Pokédex</h2>
+    <h2>Pokémons na Pokedex</h2>
     <ul>
         {% for pokemon in pokemons %}
             <li>
@@ -45,6 +45,6 @@
     </ul>
 
     <!-- Botão para voltar e adicionar mais Pokémon -->
-    <a href="/" class="btn-back">Adicionar Novo Pokémon</a>
+    <a href="/" class="btn-back">Adicionar Novo Pokemon</a>
 </body>
 </html>
