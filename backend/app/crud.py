@@ -53,6 +53,11 @@ def create_pokemon(db: Session, name: str):
     # Obtém dados do Pokémon da API
     pokemon_data = fetch_pokemon_data(name)
     
+    # Verifica se o Pokémon já existe no banco de dados
+    existing_pokemon = db.query(models.Pokemon).filter(models.Pokemon.name == name).first()
+    if existing_pokemon:
+        raise ValueError(f"O Pokémon '{name}' já está registrado na Pokédex.")
+    
     # Cria um novo registro de Pokémon no banco de dados
     db_pokemon = models.Pokemon(
         name=name,
@@ -77,7 +82,24 @@ def get_pokemons(db: Session, skip: int = 0, limit: int = 10):
 
 # Função para obter um Pokémon pelo ID
 def get_pokemon_by_id(db: Session, pokemon_id: int):
-    return db.query(models.Pokemon).filter(models.Pokemon.id == pokemon_id).first()
+    pokemon = db.query(models.Pokemon).filter(models.Pokemon.id == pokemon_id).first()
+    if not pokemon:
+        raise ValueError(f"Pokémon com ID '{pokemon_id}' não encontrado.")
+    return pokemon
+
+# Função para atualizar os dados de um Pokémon
+def update_pokemon(db: Session, pokemon_id: int, updated_data: schemas.PokemonUpdate):
+    db_pokemon = db.query(models.Pokemon).filter(models.Pokemon.id == pokemon_id).first()
+    if db_pokemon is None:
+        raise ValueError(f"Pokémon com ID '{pokemon_id}' não encontrado.")
+    
+    # Atualizando os campos fornecidos
+    for key, value in updated_data.dict(exclude_unset=True).items():
+        setattr(db_pokemon, key, value)
+    
+    db.commit()
+    db.refresh(db_pokemon)
+    return db_pokemon
 
 # Função para excluir um Pokémon pelo nome
 def delete_pokemon_by_name(db: Session, pokemon_name: str):
@@ -87,6 +109,16 @@ def delete_pokemon_by_name(db: Session, pokemon_name: str):
         raise ValueError(f"Pokemon with name '{pokemon_name}' not found")
     
     # Excluindo o Pokémon
+    db.delete(db_pokemon)
+    db.commit()
+    return db_pokemon
+
+# Função para excluir um Pokémon pelo ID
+def delete_pokemon_by_id(db: Session, pokemon_id: int):
+    db_pokemon = db.query(models.Pokemon).filter(models.Pokemon.id == pokemon_id).first()
+    if db_pokemon is None:
+        raise ValueError(f"Pokémon com ID '{pokemon_id}' não encontrado.")
+    
     db.delete(db_pokemon)
     db.commit()
     return db_pokemon

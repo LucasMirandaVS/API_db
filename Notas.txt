@@ -1,0 +1,15 @@
+1. Backend:
+cd backend
+uvicorn backend.app.main:application --reload
+Acesse http://localhost:8000/docs para verificar se a API está funcionando.
+
+2. Frontend (em outro terminal):
+cd frontend
+flask run
+Acesse http://localhost:5000 para verificar o frontend.
+
+3. Docker: 
+
+a) Certifique-se de que o Docker Desktop está em execução.
+
+b) Execute: docker-compose up --build
