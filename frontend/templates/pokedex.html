@@ -19,11 +19,31 @@
             <p><strong>Base Experience:</strong> {{ pokemon.base_experience }}</p>
             <p><strong>Altura:</strong> {{ pokemon.height }}m</p>
             <p><strong>Peso:</strong> {{ pokemon.weight }}kg</p>
-            <!-- Atualizando para pegar a imagem do Pokémon -->
             <img src="{{ pokemon.sprites['front_default'] }}" alt="Imagem do Pokémon">
         </div>
     {% elif name %}
         <p class="error-message">Pokemon "{{ name }}" não encontrado!</p>
+    {% endif %}
+
+    <!-- Exibe lista de todos os Pokémon do banco -->
+    {% if pokemons %}
+        <h2>Todos os Pokémons Cadastrados:</h2>
+        <div class="pokemon-list">
+            {% for p in pokemons %}
+                <div class="pokemon-details">
+                    <h2>Detalhes de {{ p.name }}</h2>
+                    <p><strong>Tipo:</strong> {{ p.type }}</p>
+                    <p><strong>Descrição:</strong> {{ p.description }}</p>
+                    <p><strong>Número:</strong> {{ p.number }}</p>
+                    <p><strong>Base Experience:</strong> {{ p.base_experience }}</p>
+                    <p><strong>Altura:</strong> {{ p.height }}m</p>
+                    <p><strong>Peso:</strong> {{ p.weight }}kg</p>
+                    <img src="{{ p.sprites['front_default'] }}" alt="Imagem do Pokémon">
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>Nenhum Pokémon cadastrado no momento.</p>
     {% endif %}
 
     <!-- Botão para voltar e adicionar mais Pokémon -->
