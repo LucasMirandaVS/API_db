@@ -1,0 +1,30 @@
+version: "3.9"
+
+services:
+  backend:
+    build: .  # Contexto de build: diretório raiz do projeto
+    ports:
+      - "8000:8000"  # Porta do backend (container):porta do host
+    volumes:
+      - ./API_db:/app/API_db  # Monta o diretório API_db no container
+    networks:
+      - minha-rede  # <--- Rede Docker: backend
+
+  frontend:
+    build:
+      context: ./frontend  # Contexto de build: diretório frontend
+      dockerfile: Dockerfile  # Dockerfile do frontend
+    ports:
+      - "5000:5000"  # Porta do frontend (container):porta do host
+    volumes:
+      - ./frontend/templates:/app/templates  # Monta o diretório templates
+      - ./frontend/static:/app/static  # Monta o diretório static (se houver)
+    depends_on:
+      - backend  # Depende do backend estar em execução
+    networks:
+      - minha-rede  # <--- Rede Docker: frontend
+    environment:
+      DOCKER_ENV: "true"  # Variável de ambiente para o Docker
+
+networks:
+  minha-rede:  # <--- Definição da rede Docker

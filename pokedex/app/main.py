@@ -12,6 +12,7 @@ from sqlalchemy.orm import Session
 from . import crud, schemas
 from .database import SessionLocal, engine, Base
 from . import models
+from fastapi.middleware.cors import CORSMiddleware
 
 # Configurando o Jinja2 para renderizar templates
 templates = Jinja2Templates(directory="templates")
@@ -20,6 +21,20 @@ templates = Jinja2Templates(directory="templates")
 models.Base.metadata.create_all(bind=engine)
 
 application = FastAPI()
+
+
+origins = [
+    "http://localhost:5000",  # Domínio do seu frontend
+]
+
+application.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,  # Ajuste conforme necessário
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 # Função para obter a sessão do banco de dados
 def get_db():
@@ -62,27 +77,3 @@ def delete_pokemon(pokemon_name: str, db: Session = Depends(get_db)):
     except ValueError as e:
         raise HTTPException(status_code=404, detail=str(e))
 
-# Nova rota para renderizar o template da Pokédex
-@application.get("/pokedex/")
-async def pokedex(
-    request: Request,
-    db: Session = Depends(get_db),
-    name: str = Query(None)  # O nome do Pokémon pode ser passado como query param
-):
-    # Busca todos os Pokémons salvos no banco
-    pokemons = crud.get_pokemons(db)
-
-    # Se um nome for fornecido, busca o Pokémon específico
-    pokemon = None
-    if name:
-        pokemon = crud.get_pokemon_by_name(db, name=name)
-
-    # Renderiza o template `pokedex.html` com os dados
-    return templates.TemplateResponse(
-        "pokedex.html",
-        {
-            "request": request,
-            "pokemons": pokemons,
-            "pokemon": pokemon
-        }
-    )
